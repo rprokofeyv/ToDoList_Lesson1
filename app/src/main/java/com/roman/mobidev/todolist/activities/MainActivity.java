@@ -15,10 +15,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.roman.mobidev.todolist.R;
+import com.roman.mobidev.todolist.ToDoListApplication;
 import com.roman.mobidev.todolist.adapters.TasksCursorAdapter;
 import com.roman.mobidev.todolist.db.MyContentProvider;
 import com.roman.mobidev.todolist.helpers.Loaders;
 import com.roman.mobidev.todolist.models.Task;
+import com.roman.mobidev.todolist.models.User;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -29,6 +31,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        User user = ((ToDoListApplication)getApplication()).getUser();
+        if ((user==null)||(!user.isLogged())){
+            startActivity( new Intent(this, LoginActivity.class));
+        }
         setContentView(R.layout.activity_main);
         initGui();
         getSupportLoaderManager().initLoader
